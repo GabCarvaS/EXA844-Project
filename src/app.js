@@ -9,12 +9,10 @@ const router = express.Router();
 mongoose.connect(config.connectionString);
 
 //Models
-const product = require("./models/product");
 const car = require("./models/car");
 
 //Rotas
 const indexRoute = require("./routes/indexRoute");
-const productRoute = require("./routes/productRoute");
 const carRoute = require("./routes/carRoute");
 
 app.use(bodyParser.json());
@@ -28,7 +26,6 @@ app.use(function (req, res, next) {
 });
 
 app.use("/", indexRoute);
-app.use("/products", productRoute);
 app.use("/cars", carRoute);
 
 module.exports = app;

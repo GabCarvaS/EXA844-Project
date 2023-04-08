@@ -3,9 +3,10 @@ const router = express.Router();
 const controller = require("../controllers/carController");
 
 router.get("/", controller.get);
+router.get("/filter", controller.getfilter); //getByModelAndMonth
+router.get("/modelo", controller.getByModel);
+router.get("/marca", controller.getByBrand);
+router.get("/position", controller.getByPosition);
 router.get("/:mes", controller.getByMonth);
-//router.post("/", controller.post);
-//router.put("/:id", controller.put);
-//router.delete("/", controller.delete);
 
 module.exports = router;

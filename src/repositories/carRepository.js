@@ -11,22 +11,69 @@ exports.getByMonth = async (month) => {
   return res;
 };
 
-exports.create = async (data) => {
-  let Car = new Car(data);
-  await Car.save();
+exports.getByModelAndMonth = async (month, model) => {
+  const res = await Car.findOne(
+    { mes: month, "cars.modelo": model },
+    { "cars.$": 1 }
+  );
+  return res ? res.cars[0] : null;
 };
 
-exports.update = async (id, data) => {
-  await Car.findByIdAndUpdate(id, {
-    $set: {
-      title: data.title,
-      description: data.description,
-      price: data.price,
-      slug: data.slug,
+exports.getByModel = async (model) => {
+  const pipeline = [
+    { $unwind: "$cars" },
+    { $match: { "cars.modelo": model } },
+    {
+      $group: {
+        _id: "$_id",
+        mes: { $first: "$mes" },
+        cars: { $push: "$cars" },
+      },
     },
-  });
+  ];
+
+  const res = await Car.aggregate(pipeline);
+  return res.map((obj) => obj.cars).flat();
 };
 
-exports.delete = async (id) => {
-  await Car.findOneAndRemove(id);
+exports.getByPosition = async (position) => {
+  const res = await Car.aggregate([
+    {
+      $unwind: "$cars",
+    },
+    {
+      $match: {
+        "cars.posicao": position,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        car: "$cars",
+      },
+    },
+  ]);
+
+  return res;
+};
+
+exports.getByBrand = async (brand) => {
+  const res = await Car.aggregate([
+    {
+      $unwind: "$cars",
+    },
+    {
+      $match: {
+        "cars.marca": brand,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        car: "$cars",
+      },
+    },
+  ]);
+
+  return res;
 };

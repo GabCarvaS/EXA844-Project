@@ -11,15 +11,6 @@ app.set("port", port);
 const server = http.createServer(app);
 const router = express.Router();
 
-const route = router.get("/", (req, res, next) => {
-  res.status(200).send({
-    title: "Teste node api",
-    version: "0.1",
-  });
-});
-
-app.use("/", route);
-
 server.listen(port);
 server.on("error", onError);
 console.log(`API ouvindo na porta: ${port}`);
