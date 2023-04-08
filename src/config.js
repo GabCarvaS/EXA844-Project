@@ -1,4 +1,4 @@
 module.exports = {
   connectionString:
-    "mongodb+srv://birablau:Minecraft859@cluster0.crppuch.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://GabCarva:Gabriel210900!@cluster0.1b8umlv.mongodb.net/UniversityProjects",
 };

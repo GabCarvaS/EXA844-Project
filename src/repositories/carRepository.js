@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const Car = mongoose.model("Car");
 
 exports.get = async () => {
-  const res = await Car.find("", "mes");
+  const res = await Car.find({}, null); //retorna todos os dados
   return res;
 };
 
 exports.getByMonth = async (month) => {
-  const res = await Car.findOne({ mes: month }, "cars");
+  const res = await Car.findOne({ mes: month }, "mes cars");
   return res;
 };
 

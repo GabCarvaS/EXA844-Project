@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Car = mongoose.model("Car");
-const ValidationContract = require("../validators/fluentValidator");
 const repository = require("../repositories/carRepository");
 
 exports.get = async (req, res, next) => {
@@ -20,7 +19,7 @@ exports.getByMonth = async (req, res, next) => {
     res.status(500).send({ message: "Erro ao processar a requisição" });
   }
 };
-
+/*
 exports.getById = async (req, res, next) => {
   try {
     let data = await repository.getById(req.params.id);
@@ -85,3 +84,4 @@ exports.delete = async (req, res, next) => {
     res.status(500).send({ message: "Erro ao processar a requisição" });
   }
 };
+*/
