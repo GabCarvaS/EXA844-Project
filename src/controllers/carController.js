@@ -57,3 +57,13 @@ exports.getByBrand = async (req, res, next) => {
     res.status(500).send({ message: "Erro ao processar a requisição" });
   }
 };
+
+exports.getByOccurrences = async (req, res, next) => {
+  try {
+    const { month } = req.params;
+    let data = await repository.getByOccurrences(month);
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send({ message: "Erro ao processar a requisição" });
+  }
+};

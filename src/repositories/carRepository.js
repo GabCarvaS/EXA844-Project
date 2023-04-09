@@ -77,3 +77,29 @@ exports.getByBrand = async (brand) => {
 
   return res;
 };
+
+exports.getByOccurrences = async (month) => {
+  const res = await Car.aggregate([
+    {
+      $match: {
+        mes: month,
+      },
+    },
+    {
+      $unwind: "$cars",
+    },
+    {
+      $sort: {
+        "cars.qtdOcorrencias": -1,
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        car: "$cars",
+      },
+    },
+  ]);
+
+  return res;
+};
