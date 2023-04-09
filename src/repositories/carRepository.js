@@ -20,20 +20,25 @@ exports.getByModelAndMonth = async (month, model) => {
 };
 
 exports.getByModel = async (model) => {
-  const pipeline = [
-    { $unwind: "$cars" },
-    { $match: { "cars.modelo": model } },
+  const res = await Car.aggregate([
     {
-      $group: {
-        _id: "$_id",
-        mes: { $first: "$mes" },
-        cars: { $push: "$cars" },
+      $unwind: "$cars",
+    },
+    {
+      $match: {
+        "cars.modelo": model,
       },
     },
-  ];
+    {
+      $project: {
+        _id: 0,
+        mes: 1,
+        car: "$cars",
+      },
+    },
+  ]);
 
-  const res = await Car.aggregate(pipeline);
-  return res.map((obj) => obj.cars).flat();
+  return res;
 };
 
 exports.getByPosition = async (position) => {
@@ -49,6 +54,7 @@ exports.getByPosition = async (position) => {
     {
       $project: {
         _id: 0,
+        mes: 1,
         car: "$cars",
       },
     },
@@ -70,7 +76,23 @@ exports.getByBrand = async (brand) => {
     {
       $project: {
         _id: 0,
+        mes: 1,
         car: "$cars",
+      },
+    },
+    {
+      $group: {
+        _id: "$mes",
+        cars: {
+          $push: "$car",
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        mes: "$_id",
+        cars: 1,
       },
     },
   ]);

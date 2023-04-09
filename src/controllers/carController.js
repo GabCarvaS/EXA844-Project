@@ -11,14 +11,15 @@ exports.get = async (req, res, next) => {
 
 exports.getByMonth = async (req, res, next) => {
   try {
-    let data = await repository.getByMonth(req.params.mes);
+    const { month } = req.query;
+    let data = await repository.getByMonth(month);
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send({ message: "Erro ao processar a requisição" });
   }
 };
 
-exports.getfilter = async (req, res, next) => {
+exports.getByModelAndMonth = async (req, res, next) => {
   try {
     const { mes, modelo } = req.query;
     let data = await repository.getByModelAndMonth(mes, modelo);
@@ -60,7 +61,7 @@ exports.getByBrand = async (req, res, next) => {
 
 exports.getByOccurrences = async (req, res, next) => {
   try {
-    const { month } = req.params;
+    const { month } = req.query;
     let data = await repository.getByOccurrences(month);
     res.status(200).send(data);
   } catch (e) {
