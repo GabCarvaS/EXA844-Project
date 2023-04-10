@@ -29,7 +29,6 @@ exports.getByModelAndMonth = async (req, res, next) => {
   }
 };
 
-//ALTERAR PARA RETORNAR TBM O MES JUNTO COM AS INFORMÇÕES DOS CARROS
 exports.getByModel = async (req, res, next) => {
   try {
     const { modelo } = req.query;

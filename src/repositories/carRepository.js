@@ -7,7 +7,7 @@ exports.get = async () => {
 };
 
 exports.getByMonth = async (month) => {
-  const res = await Car.findOne({ mes: month }, "mes cars");
+  const res = await Car.findOne({ mes: month }, { _id: 0, mes: 1, cars: 1 });
   return res;
 };
 
