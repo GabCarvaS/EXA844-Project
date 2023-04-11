@@ -7,27 +7,37 @@ exports.get = async () => {
 };
 
 exports.getByMonth = async (month) => {
-  const res = await Car.findOne({ mes: month }, { _id: 0, mes: 1, cars: 1 });
-  return res;
-};
+  const query = { mes: month };
 
-exports.getByModelAndMonth = async (month, model) => {
-  const res = await Car.findOne(
-    { mes: month, "cars.modelo": model },
-    { "cars.$": 1 }
-  );
-  return res ? res.cars[0] : null;
-};
-
-exports.getByModel = async (model) => {
   const res = await Car.aggregate([
     {
       $unwind: "$cars",
     },
     {
-      $match: {
-        "cars.modelo": model,
+      $match: query,
+    },
+    {
+      $project: {
+        _id: 0,
+        car: "$cars",
       },
+    },
+  ]);
+
+  return res;
+};
+
+exports.getByModel = async (model, month) => {
+  const query = { "cars.modelo": model };
+  if (month) {
+    query.mes = month;
+  }
+  const res = await Car.aggregate([
+    {
+      $unwind: "$cars",
+    },
+    {
+      $match: query,
     },
     {
       $project: {
@@ -41,15 +51,17 @@ exports.getByModel = async (model) => {
   return res;
 };
 
-exports.getByPosition = async (position) => {
+exports.getByPosition = async (position, month) => {
+  const query = { "cars.posicao": position };
+  if (month) {
+    query.mes = month;
+  }
   const res = await Car.aggregate([
     {
       $unwind: "$cars",
     },
     {
-      $match: {
-        "cars.posicao": position,
-      },
+      $match: query,
     },
     {
       $project: {
@@ -63,15 +75,17 @@ exports.getByPosition = async (position) => {
   return res;
 };
 
-exports.getByBrand = async (brand) => {
+exports.getByBrand = async (brand, month) => {
+  const match = { "cars.marca": brand };
+  if (month) {
+    match.mes = month;
+  }
   const res = await Car.aggregate([
     {
       $unwind: "$cars",
     },
     {
-      $match: {
-        "cars.marca": brand,
-      },
+      $match: match,
     },
     {
       $project: {

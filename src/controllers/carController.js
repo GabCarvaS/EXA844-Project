@@ -12,17 +12,7 @@ exports.get = async (req, res, next) => {
 exports.getByMonth = async (req, res, next) => {
   try {
     const { month } = req.query;
-    let data = await repository.getByMonth(month);
-    res.status(200).send(data);
-  } catch (e) {
-    res.status(500).send({ message: "Erro ao processar a requisição" });
-  }
-};
-
-exports.getByModelAndMonth = async (req, res, next) => {
-  try {
-    const { mes, modelo } = req.query;
-    let data = await repository.getByModelAndMonth(mes, modelo);
+    const data = await repository.getByMonth(month);
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send({ message: "Erro ao processar a requisição" });
@@ -31,8 +21,8 @@ exports.getByModelAndMonth = async (req, res, next) => {
 
 exports.getByModel = async (req, res, next) => {
   try {
-    const { modelo } = req.query;
-    let data = await repository.getByModel(modelo);
+    const { model, month } = req.query;
+    let data = await repository.getByModel(model, month);
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send({ message: "Erro ao processar a requisição" });
@@ -41,17 +31,25 @@ exports.getByModel = async (req, res, next) => {
 
 exports.getByPosition = async (req, res, next) => {
   try {
-    const { posicao } = req.query;
-    let data = await repository.getByPosition(parseInt(posicao));
+    const { position, month } = req.query;
+    let data = await repository.getByPosition(parseInt(position), month);
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send({ message: "Erro ao processar a requisição" });
   }
 };
+
 exports.getByBrand = async (req, res, next) => {
   try {
-    const { marca } = req.query;
-    let data = await repository.getByBrand(marca);
+    const { brand, month } = req.query;
+    let data = null;
+
+    if (month) {
+      data = await repository.getByBrand(brand, month);
+    } else {
+      data = await repository.getByBrand(brand);
+    }
+
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send({ message: "Erro ao processar a requisição" });
