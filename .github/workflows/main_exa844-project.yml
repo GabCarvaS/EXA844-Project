@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'EXA844-Project'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AF17158D45154AEE840542761DC15739 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6433BA63840D4CF7BADDED988AC4F8F0 }}
           package: .
