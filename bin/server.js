@@ -12,6 +12,7 @@ const server = http.createServer(app);
 server.listen(port);
 server.on("error", onError);
 console.log(`API rodando na porta ${port}`);
+console.log(process.env.RAILWAY_INSTANCE_IP);
 
 function normalizePort(val) {
   const port = parseInt(val, 10);
